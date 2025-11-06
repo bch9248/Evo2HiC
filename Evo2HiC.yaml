@@ -1,0 +1,22 @@
+name: Evo2HiC
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - nvidia
+  - pytorch
+dependencies:
+  - python=3.10.15
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - scipy=1.14.1
+  - tqdm=4.67.1
+  - pytorch=2.5.1
+  - pytorch-cuda=12.4
+  - accelerate=1.1.1
+  - beartype=0.19.0
+  - einops=0.8.0
+  - cooler=0.10.2
+  - cooltools=0.7.1
+  - hic-straw=1.3.1
+  - pybigwig=0.3.22

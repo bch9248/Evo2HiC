@@ -1,0 +1,150 @@
+Organism	Biosource	Experiment Type	#biological replicate	split	Date	Lab	Dataset Accession	Hi-C Accession	#Non-Diagonal Reads(M)
+human	A673	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR455KLX	ENCFF129LMU	550.199211
+human	activated T-helper 2 cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR474VTW	ENCFF687ATD	965.827648
+human	adrenal gland	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR898ANZ	ENCFF499BVX	834.295225
+human	adrenal gland	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR832NED	ENCFF333WCK	1131.398193
+human	aorta	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR554SLA	ENCFF493YNC	1108.81306
+human	aorta	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR797MWY	ENCFF791UZC	713.960998
+human	ascending aorta	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR464RYO	ENCFF558DYU	777.479488
+human	CD14-positive monocyte	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR444SKT	ENCFF684YCT	763.178865
+human	CD14-positive monocyte	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR236EYO	ENCFF185AYZ	662.664407
+human	colon	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR424WMG	ENCFF446NXA	621.862419
+human	colon	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR504OTV	ENCFF059WMS	577.023559
+human	colon	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR123ZFD	ENCFF897KRI	718.203433
+human	colon	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR258OVY	ENCFF858ZGP	613.616072
+human	colon	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR595UCM	ENCFF579CAR	806.505385
+human	colon	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR295BDK	ENCFF654YIQ	592.12432
+human	colon	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR298UUL	ENCFF035BLF	1382.372643
+human	colon	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR206OUF	ENCFF309UNV	1009.709245
+human	colon	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR972FIP	ENCFF660JWA	1174.614117
+human	colonic mucosa	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR439ILZ	ENCFF355NFJ	950.999724
+human	CyT49	in situ Hi-C	2	train	2020	Bing Ren, UCSD	4DNESOL9JVE2	4DNFIQ2687RT	1057.444786
+human	CyT49	in situ Hi-C	2	train	2020	Bing Ren, UCSD	4DNESOLVRKBM	4DNFI9815EEJ	1216.121884
+human	CyT49	in situ Hi-C	2	train	2020	Bing Ren, UCSD	4DNESSSDVO27	4DNFIKYXMF1E	916.772714
+human	CyT49	in situ Hi-C	2	train	2020	Bing Ren, UCSD	4DNESV11RYSF	4DNFIYDBBSE3	1104.915332
+human	dendritic cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR456QYU	ENCFF911AHQ	579.753312
+human	dorsolateral prefrontal cortex	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR165UJN	ENCFF925QIF	1045.455738
+human	esophagus muscularis mucosa	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR274FJN	ENCFF458VBB	764.073999
+human	esophagus squamous epithelium	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR015CVF	ENCFF224HKR	796.213657
+human	gastrocnemius medialis	in situ Hi-C	1	train	2023	Bing Ren, UCSD	ENCSR479USL	ENCFF833NVV	574.148491
+human	gastrocnemius medialis	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR136MVS	ENCFF132CYS	554.941776
+human	gastrocnemius medialis	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR974ADY	ENCFF341WLY	512.282856
+human	gastrocnemius medialis	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR125MJP	ENCFF616IMR	526.493992
+human	gastrocnemius medialis	in situ Hi-C	1	train	2022	Bing Ren, UCSD	ENCSR089CCK	ENCFF629SXU	565.017644
+human	GM18951	in situ Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR118FFR	ENCFF571ZQR	557.692345
+human	GM23248	in situ Hi-C	2	train	2022	Erez Aiden, Baylor	ENCSR220MNC	ENCFF702IFC	1067.650357
+human	H9	in situ Hi-C	2	train	2019	Bing Ren, UCSD	4DNES1INHSG7	4DNFII6AN691	745.056657
+human	H9	in situ Hi-C	2	train	2019	Bing Ren, UCSD	4DNES1ONB8TD	4DNFIJ8JKKWJ	1131.627895
+human	H9	in situ Hi-C	2	train	2019	Bing Ren, UCSD	4DNESAL82BWY	4DNFIDZT7PR8	841.488669
+human	H9	in situ Hi-C	2	train	2019	Bing Ren, UCSD	4DNESMU2MA2G	4DNFIEJEFCAM	1009.856687
+human	H9	in situ Hi-C	2	train	2019	Bing Ren, UCSD	4DNESZW7OOTL	4DNFIEYQ5ZIR	884.27667
+human	HCT116	in situ Hi-C	6	train	2019	Erez Aiden, Baylor	4DNES3QAGOZZ	4DNFIP71EWXC	1277.478259
+human	HCT116	in situ Hi-C	6	train	2019	Erez Aiden, Baylor	4DNESJV9TH8Q	4DNFILIM6FDL	1501.960656
+human	HCT116	intact Hi-C	2	train	2022	Erez Aiden, Baylor	ENCSR477GZK	ENCFF573OPJ	590.093755
+human	head of caudate nucleus	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR874HTT	ENCFF711XSR	826.927611
+human	heart	in situ Hi-C	2	train	2023	Wouter de Laat, HUBRECHT	4DNESJ98FIW5	4DNFIGU793GK	607.817152
+human	heart	in situ Hi-C	2	train	2023	Wouter de Laat, HUBRECHT	4DNESZNSYMTQ	4DNFII9NVNO3	522.401057
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR333BMU	ENCFF318JAP	532.898061
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR529BKV	ENCFF193CQL	1087.959945
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR297CCU	ENCFF605CEN	787.804619
+human	heart	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR434MBR	ENCFF628LQQ	673.367981
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR352EGR	ENCFF235LCO	750.758797
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR975NRV	ENCFF614IPZ	843.394152
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR476RFQ	ENCFF273XBU	860.976221
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR173VDQ	ENCFF081NPN	650.683883
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR908NSV	ENCFF663FRL	780.675541
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR530DID	ENCFF965BPU	807.204976
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR921BHU	ENCFF842DUO	753.911433
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR942NSE	ENCFF251VFA	760.340781
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR591SNM	ENCFF782WVZ	688.759143
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR324EJR	ENCFF004YZQ	1501.079916
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR518LPK	ENCFF033WGK	550.998385
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR967VFA	ENCFF643NDM	650.113826
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR462CIE	ENCFF252ANV	691.023461
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR503LWK	ENCFF784WTB	694.056276
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR556QHB	ENCFF081PMO	1065.028558
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR385MKW	ENCFF294GFP	678.908877
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR998LLZ	ENCFF591MHA	692.753466
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR771MVF	ENCFF467OGP	654.124712
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR168PIR	ENCFF284OEA	908.481831
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR210LEF	ENCFF341WOY	645.107059
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR348KEP	ENCFF556RLR	617.01362
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR941KKW	ENCFF736ITL	981.499772
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR812PIJ	ENCFF507WEW	662.015424
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR315OOJ	ENCFF028RXH	545.448226
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR374OJL	ENCFF545GBW	708.020548
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR498AFT	ENCFF546TZN	594.656159
+human	heart	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR994DPD	ENCFF459FRB	711.394288
+human	HeLa	in situ Hi-C	2	train	2018	Job Dekker, UMMS	4DNESCMX7L58	4DNFICEGAHRC	1005.626527
+human	HFF	in situ Hi-C	2	train	2017	Job Dekker, UMMS	4DNES2R6PUEK	4DNFIFLJLIS5	1314.356572
+human	HFF	in situ Hi-C	2	train	2020	Job Dekker, UMMS	4DNESNMAAN97	4DNFIMROE6N4	579.328212
+human	HFF	Micro-C	3	train	2019	Job Dekker, UMMS	4DNESWST3UBH	4DNFIPC7P27B	1019.787529
+human	kidney	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR044YKV	ENCFF417GBZ	941.642615
+human	lower leg skin	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR720WEB	ENCFF720ZBN	545.571952
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR305GRJ	ENCFF237UKR	863.559576
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR892BZA	ENCFF094KKX	846.931702
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR673UZF	ENCFF304HMS	750.099997
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR068FXF	ENCFF649OHR	576.505776
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR446NJD	ENCFF395INO	1233.23643
+human	lung	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR749PID	ENCFF896OFN	742.848794
+human	mammary epithelial cell	in situ Hi-C	2	train	2023	Erez Aiden, Baylor	ENCSR711AVS	ENCFF943JRY	634.679389
+human	natural killer cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR971CJS	ENCFF197OWW	759.029137
+human	OCI-LY7	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR088BOG	ENCFF480KLP	537.51607
+human	ovary	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR872ZCP	ENCFF496GEU	916.517473
+human	ovary	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR160XGG	ENCFF156GGD	706.197349
+human	ovary	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR782YIX	ENCFF700CYI	1305.439983
+human	ovary	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR181LJD	ENCFF019YVI	873.242624
+human	pancreas	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR121ALS	ENCFF140ROU	907.454322
+human	pancreas	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR502GIO	ENCFF586MQY	1559.237918
+human	pancreas	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR387RQD	ENCFF705MKK	771.465528
+human	pancreas	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR408HOG	ENCFF653HCO	827.634483
+human	placenta	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR395DZW	ENCFF490GGL	554.922234
+human	posterior vena cava	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR941AMF	ENCFF946RZW	688.942792
+human	prostate gland	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR557QRO	ENCFF515ZBF	840.436731
+human	psoas muscle	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR173QPK	ENCFF625VNK	883.209488
+human	psoas muscle	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR538PNC	ENCFF136XCV	952.959736
+human	Ramos	in situ Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR022TPX	ENCFF994CEG	577.925573
+human	right lobe of liver	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR874EIH	ENCFF705YZH	918.220244
+human	right lobe of liver	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR753CKM	ENCFF952JZV	914.661537
+human	sciatic nerve	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR119TFS	ENCFF602CHT	617.899087
+human	stomach	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR569OBN	ENCFF883XXW	824.670751
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR291EBI	ENCFF980NXK	705.853559
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR335JYP	ENCFF958DWQ	597.340598
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR421CGL	ENCFF962EDB	671.642309
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR923PPH	ENCFF355VJW	978.320628
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR195ETV	ENCFF571GTF	522.644415
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR379TIE	ENCFF442IGJ	565.380259
+human	T cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR215PTV	ENCFF520GFL	1018.032378
+human	T-helper 2 cell	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR832CKD	ENCFF029UAL	852.626269
+human	testis	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR870SXX	ENCFF982GKV	729.600372
+human	thyroid gland	intact Hi-C	1	train	2022	Erez Aiden, Baylor	ENCSR043XTM	ENCFF839VMS	903.938131
+human	tibial artery	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR601RFS	ENCFF746QHK	574.36656
+human	uterus	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR008CUR	ENCFF983KVN	693.230379
+human	vagina	intact Hi-C	1	train	2023	Erez Aiden, Baylor	ENCSR886JAM	ENCFF176LIZ	835.158164
+human	WTC-11	in situ Hi-C	1	train	2019	Job Dekker, UMMS	4DNESJ7S5NDJ	4DNFIVSCH2CH	764.459016
+human	WTC-11	in situ Hi-C	1	train	2019	Job Dekker, UMMS	4DNESPDEZNWX	4DNFI5LCW273	763.529863
+mouse	46C	in situ Hi-C	4	test	2019	Giacomo Cavalli, UM	4DNESJ9SIAV5	4DNFIHW8NTQX	2588.287816
+mouse	B cell	in situ Hi-C	10	test	2018	Rafael Casellas, NIH	4DNES25ABNZ1	4DNFI57XB4A8	1026.162515
+mouse	B cell	in situ Hi-C	15	test	2018	Rafael Casellas, NIH	4DNES7ODZ4MZ	4DNFIQ7UKVZV	605.160732
+mouse	B cell	in situ Hi-C	8	test	2018	Rafael Casellas, NIH	4DNESYX7AQRY	4DNFIWJY8GHD	503.119211
+human	B cell	intact Hi-C	1	test	2022	Erez Aiden, Baylor	ENCSR847RHU	ENCFF076LWH	696.414201
+mouse	B cell	in situ Hi-C	2	test	2022	Erez Aiden, Baylor	ENCSR407TGO	ENCFF026SNO	1017.016153
+mouse	B cell	in situ Hi-C	3	test	2022	Erez Aiden, Baylor	ENCSR870DKF	ENCFF123VVB	526.894347
+mouse	B cell	in situ Hi-C	4	test	2022	Erez Aiden, Baylor	ENCSR471ZWB	ENCFF409UWJ	615.300469
+human	GM12878	in situ Hi-C	22	test	2017	Erez Aiden, Baylor	4DNES3JX38V5	4DNFI1UEG1HD	1730.57997
+human	GM12878	in situ Hi-C	9	test	2022	Erez Aiden, Baylor	ENCSR410MDC	ENCFF555ISR	2192.519243
+human	GM12878	intact Hi-C	1	test	2022	Erez Aiden, Baylor	ENCSR916MFV	ENCFF318GOM	743.203569
+human	H1-hESC	in situ Hi-C	1	test	2017	Job Dekker, UMMS	4DNES2M5JIGV	4DNFIQYQWPF5	1576.841145
+human	H1-hESC	in situ Hi-C	2	test	2020	Job Dekker, UMMS	4DNESCOQ5YRS	4DNFIJWBWE41	1427.437493
+human	H1-hESC	in situ Hi-C	1	test	2020	Job Dekker, UMMS	4DNESVL4N9CD	4DNFI2J1ODWB	825.962661
+human	H1-hESC	in situ Hi-C	2	test	2020	Job Dekker, UMMS	4DNESX75DD7R	4DNFIIMZB6Y9	969.781074
+human	H1-hESC	Micro-C	2	test	2019	Job Dekker, UMMS	4DNES21D8SP8	4DNFI2TK7L2F	609.545811
+human	H1-hESC	Micro-C	2	test	2020	Job Dekker, UMMS	4DNESW1SPPTD	4DNFI2WSZPG9	1225.720376
+human	HepG2	in situ Hi-C	2	test	2018	Job Dekker, UMMS	4DNESC2DEQIJ	4DNFICSTCJQZ	954.451923
+human	HepG2	in situ Hi-C	2	test	2022	Job Dekker, UMMS	ENCSR194SRI	ENCFF306VTV	788.583625
+human	IMR-90	in situ Hi-C	3	test	2022	Erez Aiden, Baylor	ENCSR852KQC	ENCFF188SSH	532.823997
+human	K562	in situ Hi-C	4	test	2022	Erez Aiden, Baylor	ENCSR545YBD	ENCFF616PUW	897.508703
+mouse	mESC line	in situ Hi-C	4	test	2019	Giacomo Cavalli, UM	4DNESDXUWBD9	4DNFI4OUMWZ8	1395.646451
+mouse	olfactory receptor cell	in situ Hi-C	2	test	2018	Stavros Lomvardas, COLUMBIA	4DNES54YB6TQ	4DNFIXKC48TK	773.536184
+mouse	olfactory receptor cell	in situ Hi-C	2	test	2018	Stavros Lomvardas, COLUMBIA	4DNESH4UTRNL	4DNFI2U38HCE	1034.427035
+mouse	olfactory receptor cell	in situ Hi-C	2	test	2018	Stavros Lomvardas, COLUMBIA	4DNESNYBDSLY	4DNFIETP228R	580.924888
