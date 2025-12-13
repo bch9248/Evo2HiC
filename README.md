@@ -1,4 +1,7 @@
 # Evo2HiC
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17917912.svg)](https://doi.org/10.5281/zenodo.17917912)
+
 Evo2HiC is a multimodal and lightweight foundation model  for jointly modeling genomic sequences and structures.
 
 ## Introduction
@@ -33,6 +36,11 @@ conda activate Evo2HiC
 ```bash
 export PYTHONPATH=($pwd):$PYTHONPATH
 ```
+
+## Pretrained Models
+
+Pretrained Evo2HiC models are available on Zenodo:
+https://doi.org/10.5281/zenodo.17917912
 
 ## Usage
 ### Pretraining
@@ -83,8 +91,19 @@ accelerate launch train/train_CDNA2d_ResEnh.py --initialize your_pretrained_ckpt
 1. Finetine the pretrained model:
 
 ```bash
-accelerate launch train/train/train_CDNA1d.py --initialize your_pretrained_ckpt
+accelerate launch train/train_CDNA1d.py --initialize your_pretrained_ckpt
 ```
 
+### Inference finetuned models
 
+1. Predicting Hi-C maps with finetuned model (Seq2HiC or ResEnh):
 
+```bash
+python inference/inference_CDNA2D.py -ckpt your_pretrained_ckpt --options_about_data
+```
+
+2. Predicting Epigenomic profiles with finetuned model:
+
+```bash
+python inference/inference_CDNA1D.py -ckpt your_pretrained_ckpt --options_about_data
+```
