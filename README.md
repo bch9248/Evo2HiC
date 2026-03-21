@@ -18,21 +18,25 @@ In summary, Evo2HiC is a multimodal foundation model that integrates genome sequ
 </details>
 
 ## Prerequisites
-
-1. Installing miniconda with following commands:
+1. Git clone this repo
+```bash
+git clone https://github.com/bch9248/Evo2HiC.git
+cd Evo2HiC
+```
+2. Installing miniconda with following commands:
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash ~/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 ```
 For more details about miniconda, check [the official document](https://www.anaconda.com/docs/getting-started/miniconda/main).
 
-2. Install and activate required packages:
+3. Install and activate required packages:
 ```bash
-conda env create -f Evo2HiC.yaml
-conda activate Evo2HiC
+conda env create -f Evo2HiC.yaml -n *[ENVNAME]*
+conda activate *[ENVNAME]*
 ```
 
-3. add current path to python path:
+4. add current path to python path:
 ```bash
 export PYTHONPATH=($pwd):$PYTHONPATH
 ```
