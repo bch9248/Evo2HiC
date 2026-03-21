@@ -1,0 +1,7 @@
+{
+  "default": {
+    "key": "YOUR_KEY_ID",
+    "secret": "YOUR_SECRET_KEY",
+    "server": "https://data.4dnucleome.org"
+  }
+}

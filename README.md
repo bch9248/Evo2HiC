@@ -32,8 +32,8 @@ For more details about miniconda, check [the official document](https://www.anac
 
 3. Install and activate required packages:
 ```bash
-conda env create -f Evo2HiC.yaml -n *[ENVNAME]*
-conda activate *[ENVNAME]*
+conda env create -f Evo2HiC.yaml -n [ENVNAME]
+conda activate [ENVNAME]
 ```
 
 4. add current path to python path:
@@ -43,35 +43,27 @@ export PYTHONPATH=($pwd):$PYTHONPATH
 
 ## Pretrained Models
 
-Pretrained Evo2HiC models are available on Zenodo:
+Download pretrained Evo2HiC models from Zenodo:
 https://doi.org/10.5281/zenodo.17917912
 
-## Usage
-### Pretraining
-
-1. Collect hic data from ENCODE and 4DN (full index in 'data/hic_index.tsv'). Save the hic data to hic_data_dir specified in config.py.
-
-2. Run this command to start pretraining:
-
 ```bash
-accelerate launch train/pretrain.py
+wget -c -O evo2hic_checkpoints.tar.zst "https://zenodo.org/records/17917912/files/evo2hic_checkpoints.tar.zst?download=1"
+unzstd evo2hic_checkpoints.tar.zst
+tar -xvf evo2hic_checkpoints.tar
 ```
 
-The training process will be recorded by weight-and-bias(wandb).
-Read 'train/pretrain.py' if you want to change hyper-parameters.
+### Task 1 Fine-tuning
+1. Create account and get secret key on 4DN official website (https://data.4dnucleome.org/). Store the key ID and key in the keypairs.json.
 
-### inference based on pretrained checkpoint
-
-1. Calculate 1D DNA embeddings:
+2. Collect task 1 fine-tuning hic data (4DNFI2TK7L2F) from 4DN:
 
 ```bash
-python inference/inference_dna_embeds.py -ckpt your_pretrained_ckpt
+python collect_hic.py
 ```
 
-2. Calculate 2D DNA embeddings and Hi-C embeddings for retrieval:
-
+3. Run finetuning:
 ```bash
-python inference/retrieval_siglip.py -ckpt your_pretrained_ckpt
+accelerate launch train/train_CDNA2d_Seq2HiC.py --initialize checkpoints/pretrained_weights/model.pt
 ```
 
 ### Finetune pretrained checkpoint for predicting Hi-C contact matrix using genome sequences
@@ -82,32 +74,10 @@ python inference/retrieval_siglip.py -ckpt your_pretrained_ckpt
 accelerate launch train/train_CDNA2d_Seq2HiC.py --initialize your_pretrained_ckpt
 ```
 
-### Finetune pretrained checkpoint for Hi-C resolution enhancement
-
-1. Finetine the pretrained model:
-
-```bash
-accelerate launch train/train_CDNA2d_ResEnh.py --initialize your_pretrained_ckpt
-```
-
-### Finetune pretrained checkpoint for predicting epigenomic profiles
-
-1. Finetine the pretrained model:
-
-```bash
-accelerate launch train/train_CDNA1d.py --initialize your_pretrained_ckpt
-```
-
 ### Inference finetuned models
 
 1. Predicting Hi-C maps with finetuned model (Seq2HiC or ResEnh):
 
 ```bash
 python inference/inference_CDNA2D.py -ckpt your_pretrained_ckpt --options_about_data
-```
-
-2. Predicting Epigenomic profiles with finetuned model:
-
-```bash
-python inference/inference_CDNA1D.py -ckpt your_pretrained_ckpt --options_about_data
 ```

@@ -20,3 +20,4 @@ dependencies:
   - cooltools=0.7.1
   - hic-straw=1.3.1
   - pybigwig=0.3.22
+  - wandb
