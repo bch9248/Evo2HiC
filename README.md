@@ -60,18 +60,16 @@ tar -xvf evo2hic_checkpoints.tar
 ```bash
 python collect_hic.py
 ```
-
-3. Run finetuning:
+3. Prepare genome sequence data:
 ```bash
-accelerate launch train/train_CDNA2d_Seq2HiC.py --initialize checkpoints/pretrained_weights/model.pt
+mkdir -p data/hic/property
+python download_hg38.py
+python download_hg38_mappability.py
 ```
 
-### Finetune pretrained checkpoint for predicting Hi-C contact matrix using genome sequences
-
-1. Finetine the pretrained model:
-
+4. Run finetuning:
 ```bash
-accelerate launch train/train_CDNA2d_Seq2HiC.py --initialize your_pretrained_ckpt
+accelerate launch train/train_CDNA2d_Seq2HiC.py --initialize checkpoints/pretrained_weights/model.pt
 ```
 
 ### Inference finetuned models
