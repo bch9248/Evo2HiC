@@ -58,7 +58,7 @@ tar -xvf evo2hic_checkpoints.tar
 2. Collect task 1 fine-tuning hic data (4DNFI2TK7L2F) from 4DN:
 
 ```bash
-python collect_hic.py
+python collect_4dn.py
 ```
 3. Prepare genome sequence data:
 ```bash
