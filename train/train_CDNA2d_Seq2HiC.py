@@ -11,6 +11,7 @@ from tqdm import tqdm
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
+import torch.nn.functional as F
 import logging
 import json
 import random
@@ -32,10 +33,11 @@ from train.train_utils import *
 torch.autograd.set_detect_anomaly(True)
 import argparse
 
+
 def train(args):
     accelerator = Accelerator(
-        gradient_accumulation_steps= args.accumulate_step,
-        kwargs_handlers =  [DistributedDataParallelKwargs(find_unused_parameters = True)]
+        gradient_accumulation_steps=args.accumulate_step,
+        kwargs_handlers=[DistributedDataParallelKwargs(find_unused_parameters=True)]
     )
 
     utils.VERBOSE = accelerator.is_main_process
@@ -47,7 +49,6 @@ def train(args):
 
     datestr = time.strftime('%m_%d_%H_%M')
 
-    # out_dir: directory storing checkpoint files
     save_name = f'{datestr}_{args.method_name}_{args.resolution}'
     out_dir = os.path.join(save_dir, save_name)
 
@@ -63,8 +64,8 @@ def train(args):
             level=logging.INFO,
             format='%(asctime)s %(levelname)s %(message)s',
             datefmt='%H:%M:%S',
-            filename=log_file_path, 
-            filemode='w', 
+            filename=log_file_path,
+            filemode='w',
             force=True
         )
 
@@ -74,49 +75,51 @@ def train(args):
         if not args.debug:
             if args.resume_wandb_run is not None:
                 wandb.init(
-                    project = "Cdiffusion",
-                    id = args.resume_wandb_run,
-                    resume = 'must',
-
-                    config = args.__dict__
+                    project="Cdiffusion",
+                    id=args.resume_wandb_run,
+                    resume='must',
+                    config=args.__dict__
                 )
             else:
                 wandb.init(
-                    project = "Cdiffusion",
-
-                    config = args.__dict__
+                    project="Cdiffusion",
+                    config=args.__dict__
                 )
 
-    normalizer = Normalizer(args.normalization, max_reads=args.max_reads, denominator = args.denominator, step=args.step)
+    normalizer = Normalizer(
+        args.normalization,
+        max_reads=args.max_reads,
+        denominator=args.denominator,
+        step=args.step
+    )
 
-    model = create_model(**{**args.__dict__, 'normalizer' : normalizer, 'diffusion_steps' : 0})
+    model = create_model(**{**args.__dict__, 'normalizer': normalizer, 'diffusion_steps': 0})
 
     if args.evo2_option == 'Yes':
         evo_encoder = DualEvoEncoder(
-            resolution = args.resolution, 
-            input_dim = evo2_hidden_size * 2,
-            dim = args.emb_dim,
+            resolution=args.resolution,
+            input_dim=evo2_hidden_size * 2,
+            dim=args.emb_dim,
             relative_resolutions=args.relative_resolutions,
         )
 
     step = 0
 
     optimizer = AdamW(
-                [
-                    {'params': model.parameters(), 'lr' : args.base_learning_rate},
-                ] + ([
-                    {'params': evo_encoder.parameters(), 'lr' : args.base_learning_rate},
-                ] if args.evo2_option == 'Yes' else []),
-                betas = (0.9, 0.95)
-            )
+        [{'params': model.parameters(), 'lr': args.base_learning_rate}] + (
+            [{'params': evo_encoder.parameters(), 'lr': args.base_learning_rate}]
+            if args.evo2_option == 'Yes' else []
+        ),
+        betas=(0.9, 0.95)
+    )
 
     max_step = args.max_step
     warmup_step = args.warmup_step
-    mm = max_step*accelerator.num_processes
-    wm = warmup_step*accelerator.num_processes
+    mm = max_step * accelerator.num_processes
+    wm = warmup_step * accelerator.num_processes
 
-    if warmup_step>0:
-        warmup_scheduler = LinearLR(optimizer, start_factor=1/wm, end_factor=1.0, total_iters=wm)
+    if warmup_step > 0:
+        warmup_scheduler = LinearLR(optimizer, start_factor=1 / wm, end_factor=1.0, total_iters=wm)
         scheduler = CosineAnnealingLR(optimizer, T_max=mm - wm) if args.lr_decay else ConstantLR(optimizer, factor=1, total_iters=10000000)
         scheduler = SequentialLR(optimizer, schedulers=[warmup_scheduler, scheduler], milestones=[wm])
     else:
@@ -134,32 +137,31 @@ def train(args):
         optimizer.load_state_dict(state['optimizer'])
         scheduler.load_state_dict(state['scheduler'])
 
-        if args.evo2_option == 'Yes':
-            if 'evo_encoder' in state:
-                evo_encoder.load_state_dict(state['evo_encoder'])
+        if args.evo2_option == 'Yes' and 'evo_encoder' in state:
+            evo_encoder.load_state_dict(state['evo_encoder'])
 
         if accelerator.is_main_process:
             with open(os.path.join(os.path.dirname(checkpoint), 'best.json')) as f:
                 best = json.load(f)
 
         print_info('loaded')
+
     elif args.initialize is not None:
         checkpoint = args.initialize
         state = torch.load(checkpoint, map_location='cpu', weights_only=True)
-        state_unified = {k.replace('unet', 'decoder'):v for k,v in state['model'].items()}
+        state_unified = {k.replace('unet', 'decoder'): v for k, v in state['model'].items()}
         model.load_state_dict(state_unified)
 
-        if args.evo2_option == 'Yes':
-            if 'evo_encoder' in state:
-                evo_encoder.load_state_dict(state['evo_encoder'])
+        if args.evo2_option == 'Yes' and 'evo_encoder' in state:
+            evo_encoder.load_state_dict(state['evo_encoder'])
 
         print_info('model initialized')
+
     else:
         if args.initialize_evo_encoder is not None:
             state1 = torch.load(args.initialize_evo_encoder, map_location='cpu', weights_only=True)
             assert 'evo_encoder' in state1
             evo_encoder.load_state_dict(state1['evo_encoder'])
-
             print_info('evo_encoder initialized')
 
         if args.initialize_dna_encoder is not None:
@@ -169,9 +171,7 @@ def train(args):
                 for k, v in state1['model'].items()
                 if k.startswith('DNA_encoder.')
             }
-
             model.DNA_encoder.load_state_dict(dna_encoder_state_dict)
-
             print_info('DNA_encoder initialized')
 
     if args.evo2_option == 'Yes' and not args.use_evo_for_DNA:
@@ -185,53 +185,72 @@ def train(args):
     else:
         model, optimizer, scheduler = accelerator.prepare(model, optimizer, scheduler)
 
-    train_set, valid_set, _ = prepare_datasets(**{**args.__dict__, 'normalizer' : normalizer, 'dataset_size' : accelerator.num_processes * args.epoch_step * args.batch_size})
+    train_set, valid_set, _ = prepare_datasets(**{
+        **args.__dict__,
+        'normalizer': normalizer,
+        'dataset_size': accelerator.num_processes * args.epoch_step * args.batch_size
+    })
 
-    train_dl = DataLoader(train_set, batch_size = args.batch_size, shuffle=True,  num_workers = 20, drop_last=True)
-    valid_dl = DataLoader(valid_set, batch_size = args.batch_size, shuffle=False, num_workers = 20)
+    train_dl = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, num_workers=20, drop_last=True, pin_memory=True)
+    valid_dl = DataLoader(valid_set, batch_size=args.batch_size, shuffle=False, num_workers=20, pin_memory=True)
 
     train_dl, valid_dl = accelerator.prepare(train_dl, valid_dl)
 
     if accelerator.is_main_process:
-        ckpt_maintainer = checkpoint_maintainer(debug = args.debug)
-
+        ckpt_maintainer = checkpoint_maintainer(debug=args.debug)
         print_info('Start training.')
 
     train_losses = []
 
-    epoch = int(np.ceil((max_step-step) / len(train_dl)))
+    epoch = int(np.ceil((max_step - step) / len(train_dl)))
     for e in range(epoch):
-
         model.train()
         if args.evo2_option == 'Yes':
             evo_encoder.train()
 
-        pbar = tqdm(train_dl, disable = not accelerator.is_main_process)
+        pbar = tqdm(
+            train_dl,
+            disable=not accelerator.is_main_process,
+            dynamic_ncols=True,
+            leave=True,
+            desc=f'Epoch {e + 1}/{epoch}'
+        )
+
         for data in pbar:
             with accelerator.accumulate(model):
                 if args.evo2_option == 'Yes' and args.use_evo_for_DNA:
-                    Evo_embeds = evo_encoder(data['embedding_col'], data['embedding_row'], data['mappability_col'], data['mappability_row'])
-                    pred = model(**data, DNA_embeds = Evo_embeds)
+                    Evo_embeds = evo_encoder(
+                        data['embedding_col'], data['embedding_row'],
+                        data['mappability_col'], data['mappability_row']
+                    )
+                    pred = model(**data, DNA_embeds=Evo_embeds)
                 else:
-                    pred, _, _, DNA_row_embeds = model(**data, return_emb = True)
+                    pred, _, _, DNA_row_embeds = model(**data, return_emb=True)
 
-                pred = (pred + pred.transpose(-1, -2))/2
+                pred = (pred + pred.transpose(-1, -2)) / 2
                 target = data['target_matrix']
 
                 mask = torch.isfinite(target)
-                pred_m = pred*mask
-                target_m = torch.nan_to_num(target)*mask
+                pred_m = pred * mask
+                target_m = torch.nan_to_num(target) * mask
                 mse = F.mse_loss(pred_m, target_m, reduction='none').mean()
 
                 loss = mse
 
                 if args.evo2_option == 'Yes' and not args.use_evo_for_DNA:
-                    _, Evo_row_embeds = evo_encoder(data['embedding_col'], data['embedding_row'], data['mappability_col'], data['mappability_row'], return_emb=True)
+                    _, Evo_row_embeds = evo_encoder(
+                        data['embedding_col'], data['embedding_row'],
+                        data['mappability_col'], data['mappability_row'],
+                        return_emb=True
+                    )
 
                     DNA_row_embeds = DNA_row_embeds.transpose(-1, -2)
                     Evo_row_embeds = Evo_row_embeds.transpose(-1, -2)
 
-                    loss1 = 1-(nn.functional.normalize(DNA_row_embeds, dim=-1) * nn.functional.normalize(Evo_row_embeds, dim=-1)).sum(dim=-1).mean()
+                    loss1 = 1 - (
+                        nn.functional.normalize(DNA_row_embeds, dim=-1) *
+                        nn.functional.normalize(Evo_row_embeds, dim=-1)
+                    ).sum(dim=-1).mean()
 
                     loss = loss + args.DNA_evo2_weight * loss1
 
@@ -241,9 +260,9 @@ def train(args):
                     vmin, vmax = normalizer.normalize(0), normalizer.normalize(100)
                     save_hic_batches_to_pdf(
                         pred,
-                        target, 
-                        data['positions'], 
-                        save_path=os.path.join(vis_path, f'vis_{step}.pdf'), 
+                        target,
+                        data['positions'],
+                        save_path=os.path.join(vis_path, f'vis_{step}.pdf'),
                         vmin=vmin,
                         vmax=vmax
                     )
@@ -253,32 +272,27 @@ def train(args):
                 optimizer.zero_grad()
 
             step += 1
-
-            train_losses.append(loss.cpu().item())
-
+            train_losses.append(loss.detach().cpu().item())
             learning_rate = scheduler.get_last_lr()[0]
 
             if accelerator.is_main_process and not args.debug:
                 results = {
-                    'train loss (DNA-HiC)' : mse.cpu().item(),
-                    'train loss (overall)' : loss.cpu().item(),
-                    'learning rate' : learning_rate
+                    'train loss (DNA-HiC)': mse.detach().cpu().item(),
+                    'train loss (overall)': loss.detach().cpu().item(),
+                    'learning rate': learning_rate
                 }
                 if args.evo2_option == 'Yes' and not args.use_evo_for_DNA:
-                    results.update(
-                        {
-                            'train loss (DNA-evo2)' : loss1.cpu().item(),
-                        }
-                    )
-                wandb.log(
-                    results,
-                    step = step
-                )
+                    results['train loss (DNA-evo2)'] = loss1.detach().cpu().item()
+                wandb.log(results, step=step)
 
             if accelerator.is_main_process:
-                pbar.set_description(f'Epoch: {e}/{epoch}, Step: {step}, Avg loss: { np.mean(train_losses):.4e}, current loss: {np.mean(train_losses[-args.accumulate_step:]):.4e}')
+                pbar.set_postfix({
+                    'step': step,
+                    'avg_loss': f'{np.mean(train_losses):.4e}',
+                    'cur_loss': f'{np.mean(train_losses[-args.accumulate_step:]):.4e}',
+                    'lr': f'{learning_rate:.2e}'
+                })
 
-        #start eval
         torch.cuda.empty_cache()
         accelerator.wait_for_everyone()
 
@@ -289,56 +303,59 @@ def train(args):
         if accelerator.is_main_process:
             ckpt = os.path.join(out_dir, f'{step}.pt')
             state = {
-                'model' : accelerator.unwrap_model(model).state_dict(),
-                'step' : step,
-                'optimizer' : optimizer.state_dict(),
-                'scheduler' : scheduler.state_dict()
+                'model': accelerator.unwrap_model(model).state_dict(),
+                'step': step,
+                'optimizer': optimizer.state_dict(),
+                'scheduler': scheduler.state_dict()
             }
             if args.evo2_option == 'Yes':
-                state.update(
-                    {
-                        'evo_encoder' : accelerator.unwrap_model(evo_encoder).state_dict(),
-                    }
-                )
+                state['evo_encoder'] = accelerator.unwrap_model(evo_encoder).state_dict()
 
             torch.save(state, ckpt)
-
-            ckpt_maintainer.create_checkpoint(ckpt, keep = (step % 10000 == 0))
-
-            ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, f'last.pt'))
-
+            ckpt_maintainer.create_checkpoint(ckpt, keep=(step % 10000 == 0))
+            ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, 'last.pt'))
             print_info(("Step: %d, \t Train, \t LR: %0.8f, \t Loss: %0.8f" % (step, learning_rate, np.mean(train_losses))))
-
             train_losses = []
 
         results = {}
-        def val(dl, key_suffix = ''):
+
+        def val(dl, key_suffix=''):
             with torch.no_grad():
-                valid_bar = tqdm(dl, disable = not accelerator.is_main_process)
+                valid_bar = tqdm(
+                    dl,
+                    disable=not accelerator.is_main_process,
+                    dynamic_ncols=True,
+                    leave=False,
+                    desc='Validation'
+                )
                 targets = []
                 preds = []
                 valid_mses = []
                 valid_loss1es = []
                 valid_losses = []
                 first = True
+
                 for data in valid_bar:
                     if args.evo2_option == 'Yes' and args.use_evo_for_DNA:
-                        Evo_embeds = evo_encoder(data['embedding_col'], data['embedding_row'], data['mappability_col'], data['mappability_row'])
-                        pred = model(**data, DNA_embeds = Evo_embeds)
+                        Evo_embeds = evo_encoder(
+                            data['embedding_col'], data['embedding_row'],
+                            data['mappability_col'], data['mappability_row']
+                        )
+                        pred = model(**data, DNA_embeds=Evo_embeds)
                     else:
-                        pred, HiC_embeds, DNA_embeds, DNA_row_embeds = model(**data, return_emb = True)
+                        pred, HiC_embeds, DNA_embeds, DNA_row_embeds = model(**data, return_emb=True)
 
-                    pred = (pred + pred.transpose(-1, -2))/2
+                    pred = (pred + pred.transpose(-1, -2)) / 2
                     target = data['target_matrix']
 
                     if accelerator.is_main_process and first:
                         vmin, vmax = normalizer.normalize(0), normalizer.normalize(100)
                         save_hic_batches_to_pdf(
                             pred,
-                            target, 
-                            data['positions'], 
-                            save_path=os.path.join(vis_path, f'vis_val_{step}.pdf'), 
-                            vmin=vmin, 
+                            target,
+                            data['positions'],
+                            save_path=os.path.join(vis_path, f'vis_val_{step}.pdf'),
+                            vmin=vmin,
                             vmax=vmax
                         )
                     if first:
@@ -346,27 +363,31 @@ def train(args):
                     first = False
 
                     mask = torch.isfinite(target)
-                    pred_m = pred*mask
-                    target_m = torch.nan_to_num(target)*mask
+                    pred_m = pred * mask
+                    target_m = torch.nan_to_num(target) * mask
                     mse = F.mse_loss(pred_m, target_m, reduction='none').mean()
 
                     loss = mse
-
                     targets.append(target)
                     preds.append(pred)
-
                     valid_mses.append(mse)
 
                     if args.evo2_option == 'Yes' and not args.use_evo_for_DNA:
-                        _, Evo_row_embeds = evo_encoder(data['embedding_col'], data['embedding_row'], data['mappability_col'], data['mappability_row'], return_emb=True)
+                        _, Evo_row_embeds = evo_encoder(
+                            data['embedding_col'], data['embedding_row'],
+                            data['mappability_col'], data['mappability_row'],
+                            return_emb=True
+                        )
 
                         DNA_row_embeds = DNA_row_embeds.transpose(-1, -2)
                         Evo_row_embeds = Evo_row_embeds.transpose(-1, -2)
 
-                        loss1 = 1-(nn.functional.normalize(DNA_row_embeds, dim=-1) * nn.functional.normalize(Evo_row_embeds, dim=-1)).sum(dim=-1).mean()
+                        loss1 = 1 - (
+                            nn.functional.normalize(DNA_row_embeds, dim=-1) *
+                            nn.functional.normalize(Evo_row_embeds, dim=-1)
+                        ).sum(dim=-1).mean()
 
                         valid_loss1es.append(loss1)
-
                         loss = loss + args.DNA_evo2_weight * loss1
 
                     valid_losses.append(loss)
@@ -379,7 +400,6 @@ def train(args):
 
             targets = accelerator.gather(targets)
             preds = accelerator.gather(preds)
-
             valid_mses = accelerator.gather(valid_mses)
             valid_losses = accelerator.gather(valid_losses)
 
@@ -390,15 +410,16 @@ def train(args):
             accelerator.wait_for_everyone()
 
             if accelerator.is_main_process:
-                targets = targets.cpu().numpy()
-                preds = preds.cpu().numpy()
-                C = targets.shape[-3]
+                targets_np = targets.cpu().numpy()
+                preds_np = preds.cpu().numpy()
+                C = targets_np.shape[-3]
+
                 for c in range(C):
                     pccs = []
                     spcs = []
-                    for k in range(1, targets.shape[-1]):
-                        pk = np.diagonal(preds[..., c, :, :], offset=k, axis1=-2, axis2=-1)
-                        tk = np.diagonal(targets[..., c, :, :], offset=k, axis1=-2, axis2=-1)
+                    for k in range(1, targets_np.shape[-1]):
+                        pk = np.diagonal(preds_np[..., c, :, :], offset=k, axis1=-2, axis2=-1)
+                        tk = np.diagonal(targets_np[..., c, :, :], offset=k, axis1=-2, axis2=-1)
                         mask = np.isfinite(tk)
                         t, p = tk[mask], pk[mask]
                         pcc = pearsonr(t, p)[0]
@@ -429,7 +450,7 @@ def train(args):
                 print_info(f"Step: {step}, \t {k} is {valid_mse}")
                 if valid_mse < best.get(k, 100):
                     best[k] = valid_mse
-                    ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, f'best_valid_loss_mse.pt'))
+                    ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, 'best_valid_loss_mse.pt'))
 
                 valid_loss = valid_losses.mean().item()
                 k = 'valid loss (sum)'
@@ -437,7 +458,7 @@ def train(args):
                 print_info(f"Step: {step}, \t {k} is {valid_loss}")
                 if valid_loss < best.get(k, 100):
                     best[k] = valid_loss
-                    ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, f'best_valid_loss.pt'))
+                    ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, 'best_valid_loss.pt'))
 
                 if args.evo2_option == 'Yes' and not args.use_evo_for_DNA:
                     valid_loss1 = valid_loss1es.mean().item()
@@ -446,7 +467,7 @@ def train(args):
                     print_info(f"Step: {step}, \t {k} is {valid_loss1}")
                     if valid_loss1 < best.get(k, 100):
                         best[k] = valid_loss1
-                        ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, f'best_valid_loss_DNAEvo2.pt'))
+                        ckpt_maintainer.link_checkpoint(ckpt, os.path.join(out_dir, 'best_valid_loss_DNAEvo2.pt'))
 
         val(valid_dl)
 
@@ -456,10 +477,7 @@ def train(args):
             ckpt_maintainer.clean()
 
             if not args.debug:
-                wandb.log(
-                    results,
-                    step=step
-                )
+                wandb.log(results, step=step)
 
         torch.cuda.empty_cache()
 
@@ -472,33 +490,37 @@ if __name__ == '__main__':
     parser.add_argument('--use-evo-for-DNA', action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument('--initialize-evo-encoder', type=str, default=None)
     parser.add_argument('--initialize-dna-encoder', type=str, default=None)
+    parser.add_argument('--hic-norm-type', type=str, default='KR', choices=['auto', 'KR', 'VC', 'VC_SQRT', 'NONE'])
+
     parser.set_defaults(
-        method_name = 'CDNA2d-Seq2HiC',
+        method_name='CDNA2d-Seq2HiC',
 
-        resolution = 4000,
+        resolution=4000,
 
-        input_option = 'expected',
-        target_option = 'norm',
-        target_specified = '4DNFI2TK7L2F',
-        max_separation = 0,
+        input_option='expected',
+        target_option='norm',
+        target_specified='4DNFI2TK7L2F',
+        max_separation=0,
 
-        chunk = 280,
-        stride = 125,
+        chunk=280,
+        stride=125,
 
-        augment_resolution = 2000,
+        augment_resolution=2000,
 
-        batch_size = 7,
-        sample = True,
-        whole_row = False,
-        train_pos_per_row = 1,
-        valid_pos_per_row = 1,
-        train_hic_per_pos = -1,
-        valid_hic_per_pos = -1,
+        batch_size=7,
+        sample=True,
+        whole_row=False,
+        train_pos_per_row=1,
+        valid_pos_per_row=1,
+        train_hic_per_pos=-1,
+        valid_hic_per_pos=-1,
 
-        flip_prob = 0.5,
-        DNA_shift = 100,
+        flip_prob=0.5,
+        DNA_shift=100,
 
-        max_step = 20000
+        max_step=20000,
+
+        hic_norm_type='KR'
     )
     args = parser.parse_args()
 
